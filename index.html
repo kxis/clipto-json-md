@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSON to ZIP</title>
+</head>
+<body>
+  <h1>Upload JSON file to convert to ZIP</h1>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".json">
+    <button type="submit">Convert</button>
+  </form>
+  <div id="result"></div>
+
+  <script>
+    const uploadForm = document.getElementById('uploadForm');
+    const resultDiv = document.getElementById('result');
+
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const file = uploadForm.file;
+      if (!file) {
+        alert('Please select a file to convert');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch('/convert', { method: 'POST', body: formData });
+        const data = await response.json();
+
+        if (data.success) {
+          resultDiv.innerHTML = 'Conversion completed. Download the ZIP file below.';
+          const link = document.createElement('a');
+          link.href = data.zipPath;
+          link.download = 'json-to-zip.zip';
+          link.click();
+        } else {
+          resultDiv.innerHTML = 'Con
