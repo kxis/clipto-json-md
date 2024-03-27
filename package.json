@@ -1,0 +1,12 @@
+{
+  "name": "json-to-zip",
+  "version": "1.0.0",
+  "description": "Convert JSON files to ZIP archives",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "multer": {
+    "destination": "uploads/"
+  }
+}
